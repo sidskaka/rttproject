@@ -1,0 +1,466 @@
+<html>
+   <head>
+      <meta charset="UTF-8">
+      <script type="text/javascript">
+         function getValue() {
+         
+            function calculrtt(annee, nbjt, nbcp) {
+               var tab_jour=new Array("Dimanche", "Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi");
+
+               var nouvannee = new Date('1 1 '+annee); // 1er janvier
+
+               var fdtravail = new Date('5 1 '+annee); // 1er mai
+
+               var vallies = new Date('5 8 '+annee); // 8 mai
+
+               var fnationale = new Date('7 14 '+annee); // 14 juillet
+
+               var assomption = new Date('8 15 '+annee); // 15 aout
+
+               var toussaint = new Date('11 1 '+annee); // 1er novembre
+
+               var armistice = new Date('11 11 '+annee); // 11 novembre
+
+               var noel = new Date('12 25 '+annee); // 25 decembre
+
+               var nbjours = 365; // initialiser le nombre de jours de l'années à 365 jours
+               var nbweeks = 0; // compteur du nombre de samedis & dimanches de l'annèes
+               var nbfetes = 3; // compteur du nombre de jours fériés hors samedis & dimanches
+               if((annee%4) === 0) {
+                  if((annee%100) === 0) {
+                     if((annee%400) === 0) {
+                        console.log("annee bissextile!")
+                        nbjours = 366;
+                        /** trouver les 4 premiers mois impairs */
+                        for(let i=1;i<=7;) {
+                           /** on va conter les jours de fêtes hors week-end */
+                           if(i === 1) {
+                              var nouvelleAnDay = new Date(i+' 1 '+annee);
+                              if(tab_jour[nouvelleAnDay.getDay()] !== "Samedi" && tab_jour[nouvelleAnDay.getDay()] !== "Dimanche") {
+                                 nbfetes++;
+                              }
+                           }else if(i === 5){
+                              var travailDay = new Date(i+' 1 '+annee);
+                              var vAlliesDay = new Date(i+' 8 '+annee);
+                              if(tab_jour[travailDay.getDay()] !== "Samedi" && tab_jour[travailDay.getDay()] !== "Dimanche") {
+                                 nbfetes++;
+                              }
+                              if(tab_jour[vAlliesDay.getDay()] !== "Samedi" && tab_jour[vAlliesDay.getDay()] !== "Dimanche") {
+                                 nbfetes++;
+                              }
+                           }else if(i === 7){
+                              var fNationaleDay = new Date(i+' 14 '+annee);
+                              if(tab_jour[fNationaleDay.getDay()] !== "Samedi" && tab_jour[fNationaleDay.getDay()] !== "Dimanche") {
+                                 nbfetes++;
+                              }
+                           }
+                           /** fin */
+                           for(let j=1;j<=31;j++) { // parcourrir un mois de 31 jours
+                              var myDate = new Date(i+' '+j+' '+annee);
+                              if(tab_jour[myDate.getDay()] === "Samedi" || tab_jour[myDate.getDay()] === "Dimanche") {
+                                 nbweeks++;
+                              }
+                           }
+                           i += 2; 
+                        }
+                        /** fin */
+                        /** trouver les 3 derniers mois pairs */
+                        for(let i=8;i<=12;) {
+                           /** on va conter les jours de fêtes hors week-end */
+                           if(i === 8) {
+                              var assomptionDay = new Date(i+' 15 '+annee);
+                              if(tab_jour[assomptionDay.getDay()] !== "Samedi" && tab_jour[assomptionDay.getDay()] !== "Dimanche") {
+                                 nbfetes++;
+                              }
+                           }else if(i === 12) {
+                              var noelDay = new Date(i+' 25 '+annee);
+                              if(tab_jour[noelDay.getDay()] !== "Samedi" && tab_jour[noelDay.getDay()] !== "Dimanche") {
+                                 nbfetes++;
+                              }
+                           }
+                           /** fin */
+                           for(let j=1;j<=31;j++) { // parcourrir un mois de 31 jours
+                              var myDate = new Date(i+' '+j+' '+annee);
+                              if(tab_jour[myDate.getDay()] === "Samedi" || tab_jour[myDate.getDay()] === "Dimanche") {
+                                 nbweeks++;
+                              }
+                           }
+                           i += 2;
+                        }
+                        /** fin */
+                        /** trouver les 3 premiers mois pairs */
+                        for(let i=2;i<=6;) {
+                           if(i === 2) {
+                              for(let j=1;j<=29;j++) { // parcourrir un mois de 28 jours (février)
+                                 var myDate = new Date(i+' '+j+' '+annee);
+                                 if(tab_jour[myDate.getDay()] === "Samedi" || tab_jour[myDate.getDay()] === "Dimanche") {
+                                    nbweeks++;
+                                 }
+                              }
+                           }else{
+                              for(let j=1;j<=30;j++) { // parcourrir un mois de 30 jours
+                                 var myDate = new Date(i+' '+j+' '+annee);
+                                 if(tab_jour[myDate.getDay()] === "Samedi" || tab_jour[myDate.getDay()] === "Dimanche") {
+                                    nbweeks++;
+                                 }
+                              }
+                           }
+                           i += 2;
+                           
+                        }
+                        /** fin */
+                        /** trouver les 2 derniers mois impairs */
+                        for(let i=9;i<=11;) {
+                           /** on va conter les jours de fêtes hors week-end */
+                           if(i === 11) {
+                              var toussaintDay = new Date(i+' 1 '+annee);
+                              var armisticeDay = new Date(i+' 11 '+annee);
+                              if(tab_jour[toussaintDay.getDay()] !== "Samedi" && tab_jour[toussaintDay.getDay()] !== "Dimanche") {
+                                 nbfetes++;
+                              }
+                              if(tab_jour[armisticeDay.getDay()] !== "Samedi" && tab_jour[armisticeDay.getDay()] !== "Dimanche") {
+                                 nbfetes++;
+                              }
+                           }
+                           /** fin */
+                           for(let j=1;j<=30;j++) { // parcourrir un mois de 30 jours
+                              var myDate = new Date(i+' '+j+' '+annee);
+                              if(tab_jour[myDate.getDay()] === "Samedi" || tab_jour[myDate.getDay()] === "Dimanche") {
+                                 nbweeks++;
+                              }
+                           }
+                           i += 2;
+                        }
+                        
+                     }else{
+                        console.log("annee non bissextile!")
+                        /** trouver les 4 premiers mois impairs */
+                        for(let i=1;i<=7;) {
+                           /** on va conter les jours de fêtes hors week-end */
+                           if(i === 1) {
+                              var nouvelleAnDay = new Date(i+' 1 '+annee);
+                              if(tab_jour[nouvelleAnDay.getDay()] !== "Samedi" && tab_jour[nouvelleAnDay.getDay()] !== "Dimanche") {
+                                 nbfetes++;
+                              }
+                           }else if(i === 5){
+                              var travailDay = new Date(i+' 1 '+annee);
+                              var vAlliesDay = new Date(i+' 8 '+annee);
+                              if(tab_jour[travailDay.getDay()] !== "Samedi" && tab_jour[travailDay.getDay()] !== "Dimanche") {
+                                 nbfetes++;
+                              }
+                              if(tab_jour[vAlliesDay.getDay()] !== "Samedi" && tab_jour[vAlliesDay.getDay()] !== "Dimanche") {
+                                 nbfetes++;
+                              }
+                           }else if(i === 7){
+                              var fNationaleDay = new Date(i+' 14 '+annee);
+                              if(tab_jour[fNationaleDay.getDay()] !== "Samedi" && tab_jour[fNationaleDay.getDay()] !== "Dimanche") {
+                                 nbfetes++;
+                              }
+                           }
+                           /** fin */
+                           for(let j=1;j<=31;j++) { // parcourrir un mois de 31 jours
+                              var myDate = new Date(i+' '+j+' '+annee);
+                              if(tab_jour[myDate.getDay()] === "Samedi" || tab_jour[myDate.getDay()] === "Dimanche") {
+                                 nbweeks++;
+                              }
+                           }
+                           i += 2; 
+                        }
+                        /** fin */
+                        /** trouver les 3 derniers mois pairs */
+                        for(let i=8;i<=12;) {
+                           /** on va conter les jours de fêtes hors week-end */
+                           if(i === 8) {
+                              var assomptionDay = new Date(i+' 15 '+annee);
+                              if(tab_jour[assomptionDay.getDay()] !== "Samedi" && tab_jour[assomptionDay.getDay()] !== "Dimanche") {
+                                 nbfetes++;
+                              }
+                           }else if(i === 12) {
+                              var noelDay = new Date(i+' 25 '+annee);
+                              if(tab_jour[noelDay.getDay()] !== "Samedi" && tab_jour[noelDay.getDay()] !== "Dimanche") {
+                                 nbfetes++;
+                              }
+                           }
+                           /** fin */
+                           for(let j=1;j<=31;j++) { // parcourrir un mois de 31 jours
+                              var myDate = new Date(i+' '+j+' '+annee);
+                              if(tab_jour[myDate.getDay()] === "Samedi" || tab_jour[myDate.getDay()] === "Dimanche") {
+                                 nbweeks++;
+                              }
+                           }
+                           i += 2;
+                        }
+                        /** fin */
+                        /** trouver les 3 premiers mois pairs */
+                        for(let i=2;i<=6;) {
+                           if(i === 2) {
+                              for(let j=1;j<=28;j++) { // parcourrir un mois de 28 jours (février)
+                                 var myDate = new Date(i+' '+j+' '+annee);
+                                 if(tab_jour[myDate.getDay()] === "Samedi" || tab_jour[myDate.getDay()] === "Dimanche") {
+                                    nbweeks++;
+                                 }
+                              }
+                           }else{
+                              for(let j=1;j<=30;j++) { // parcourrir un mois de 30 jours
+                                 var myDate = new Date(i+' '+j+' '+annee);
+                                 if(tab_jour[myDate.getDay()] === "Samedi" || tab_jour[myDate.getDay()] === "Dimanche") {
+                                    nbweeks++;
+                                 }
+                              }
+                           }
+                           i += 2;
+                        }
+                        /** fin */
+                        /** trouver les 2 derniers mois impairs */
+                        for(let i=9;i<=11;) {
+                           /** on va conter les jours de fêtes hors week-end */
+                           if(i === 11) {
+                              var toussaintDay = new Date(i+' 1 '+annee);
+                              var armisticeDay = new Date(i+' 11 '+annee);
+                              if(tab_jour[toussaintDay.getDay()] !== "Samedi" && tab_jour[toussaintDay.getDay()] !== "Dimanche") {
+                                 nbfetes++;
+                              }
+                              if(tab_jour[armisticeDay.getDay()] !== "Samedi" && tab_jour[armisticeDay.getDay()] !== "Dimanche") {
+                                 nbfetes++;
+                              }
+                           }
+                           /** fin */
+                           for(let j=1;j<=30;j++) { // parcourrir un mois de 30 jours
+                              var myDate = new Date(i+' '+j+' '+annee);
+                              if(tab_jour[myDate.getDay()] === "Samedi" || tab_jour[myDate.getDay()] === "Dimanche") {
+                                 nbweeks++;
+                              }
+                           }
+                           i += 2;
+                        }
+                     }
+                  }else{
+                     console.log("annee bissextile!")
+                     nbjours = 366;
+                     /** trouver les 4 premiers mois impairs */
+                     for(let i=1;i<=7;) {
+                        /** on va conter les jours de fêtes hors week-end */
+                        if(i === 1) {
+                           var nouvelleAnDay = new Date(i+' 1 '+annee);
+                           if(tab_jour[nouvelleAnDay.getDay()] !== "Samedi" && tab_jour[nouvelleAnDay.getDay()] !== "Dimanche") {
+                              nbfetes++;
+                           }
+                        }else if(i === 5){
+                           var travailDay = new Date(i+' 1 '+annee);
+                           var vAlliesDay = new Date(i+' 8 '+annee);
+                           if(tab_jour[travailDay.getDay()] !== "Samedi" && tab_jour[travailDay.getDay()] !== "Dimanche") {
+                              nbfetes++;
+                           }
+                           if(tab_jour[vAlliesDay.getDay()] !== "Samedi" && tab_jour[vAlliesDay.getDay()] !== "Dimanche") {
+                              nbfetes++;
+                           }
+                        }else if(i === 7){
+                           var fNationaleDay = new Date(i+' 14 '+annee);
+                           if(tab_jour[fNationaleDay.getDay()] !== "Samedi" && tab_jour[fNationaleDay.getDay()] !== "Dimanche") {
+                              nbfetes++;
+                           }
+                        }
+                        /** fin */
+                        for(let j=1;j<=31;j++) { // parcourrir un mois de 31 jours
+                           var myDate = new Date(i+' '+j+' '+annee);
+                           if(tab_jour[myDate.getDay()] === "Samedi" || tab_jour[myDate.getDay()] === "Dimanche") {
+                              nbweeks++;
+                           }
+                        }
+                        i += 2; 
+                     }
+                     /** fin */
+                     /** trouver les 3 derniers mois pairs */
+                     for(let i=8;i<=12;) {
+                        /** on va conter les jours de fêtes hors week-end */
+                        if(i === 8) {
+                           var assomptionDay = new Date(i+' 15 '+annee);
+                           if(tab_jour[assomptionDay.getDay()] !== "Samedi" && tab_jour[assomptionDay.getDay()] !== "Dimanche") {
+                              nbfetes++;
+                           }
+                        }else if(i === 12) {
+                           var noelDay = new Date(i+' 25 '+annee);
+                           if(tab_jour[noelDay.getDay()] !== "Samedi" && tab_jour[noelDay.getDay()] !== "Dimanche") {
+                              nbfetes++;
+                           }
+                        }
+                        /** fin */
+                        for(let j=1;j<=31;j++) { // parcourrir un mois de 31 jours
+                           var myDate = new Date(i+' '+j+' '+annee);
+                           if(tab_jour[myDate.getDay()] === "Samedi" || tab_jour[myDate.getDay()] === "Dimanche") {
+                              nbweeks++;
+                           }
+                        }
+                        i += 2;
+                     }
+                     /** fin */
+                     /** trouver les 3 premiers mois pairs */
+                     for(let i=2;i<=6;) {
+                        if(i === 2) {
+                           for(let j=1;j<=29;j++) { // parcourrir un mois de 28 jours (février)
+                              var myDate = new Date(i+' '+j+' '+annee);
+                              if(tab_jour[myDate.getDay()] === "Samedi" || tab_jour[myDate.getDay()] === "Dimanche") {
+                                 nbweeks++;
+                              }
+                           }
+                        }else{
+                           for(let j=1;j<=30;j++) { // parcourrir un mois de 30 jours
+                              var myDate = new Date(i+' '+j+' '+annee);
+                              if(tab_jour[myDate.getDay()] === "Samedi" || tab_jour[myDate.getDay()] === "Dimanche") {
+                                 nbweeks++;
+                              }
+                           }
+                        }
+                        i += 2;
+                        
+                     }
+                     /** fin */
+                     /** trouver les 2 derniers mois impairs */
+                     for(let i=9;i<=11;) {
+                        /** on va conter les jours de fêtes hors week-end */
+                        if(i === 11) {
+                           var toussaintDay = new Date(i+' 1 '+annee);
+                           var armisticeDay = new Date(i+' 11 '+annee);
+                           if(tab_jour[toussaintDay.getDay()] !== "Samedi" && tab_jour[toussaintDay.getDay()] !== "Dimanche") {
+                              nbfetes++;
+                           }
+                           if(tab_jour[armisticeDay.getDay()] !== "Samedi" && tab_jour[armisticeDay.getDay()] !== "Dimanche") {
+                              nbfetes++;
+                           }
+                        }
+                        /** fin */
+                        for(let j=1;j<=30;j++) { // parcourrir un mois de 30 jours
+                           var myDate = new Date(i+' '+j+' '+annee);
+                           if(tab_jour[myDate.getDay()] === "Samedi" || tab_jour[myDate.getDay()] === "Dimanche") {
+                              nbweeks++;
+                           }
+                        }
+                        i += 2;
+                     }
+                  }
+               }else{
+                  console.log("annee non bissextile!")
+                  /** trouver les 4 premiers mois impairs */
+                  for(let i=1;i<=7;) {
+                     /** on va conter les jours de fêtes hors week-end */
+                     if(i === 1) {
+                        var nouvelleAnDay = new Date(i+' 1 '+annee);
+                        if(tab_jour[nouvelleAnDay.getDay()] !== "Samedi" && tab_jour[nouvelleAnDay.getDay()] !== "Dimanche") {
+                           nbfetes++;
+                        }
+                     }else if(i === 5){
+                        var travailDay = new Date(i+' 1 '+annee);
+                        var vAlliesDay = new Date(i+' 8 '+annee);
+                        if(tab_jour[travailDay.getDay()] !== "Samedi" && tab_jour[travailDay.getDay()] !== "Dimanche") {
+                           nbfetes++;
+                        }
+                        if(tab_jour[vAlliesDay.getDay()] !== "Samedi" && tab_jour[vAlliesDay.getDay()] !== "Dimanche") {
+                           nbfetes++;
+                        }
+                     }else if(i === 7){
+                        var fNationaleDay = new Date(i+' 14 '+annee);
+                        if(tab_jour[fNationaleDay.getDay()] !== "Samedi" && tab_jour[fNationaleDay.getDay()] !== "Dimanche") {
+                           nbfetes++;
+                        }
+                     }
+                     /** fin */
+                     for(let j=1;j<=31;j++) { // parcourrir un mois de 31 jours
+                        var myDate = new Date(i+' '+j+' '+annee);
+                        if(tab_jour[myDate.getDay()] === "Samedi" || tab_jour[myDate.getDay()] === "Dimanche") {
+                           nbweeks++;
+                        }
+                     }
+                     i += 2; 
+                  }
+                  /** fin */
+                  /** trouver les 3 derniers mois pairs */
+                  for(let i=8;i<=12;) {
+                     /** on va conter les jours de fêtes hors week-end */
+                     if(i === 8) {
+                        var assomptionDay = new Date(i+' 15 '+annee);
+                        if(tab_jour[assomptionDay.getDay()] !== "Samedi" && tab_jour[assomptionDay.getDay()] !== "Dimanche") {
+                           nbfetes++;
+                        }
+                     }else if(i === 12) {
+                        var noelDay = new Date(i+' 25 '+annee);
+                        if(tab_jour[noelDay.getDay()] !== "Samedi" && tab_jour[noelDay.getDay()] !== "Dimanche") {
+                           nbfetes++;
+                        }
+                     }
+                     /** fin */
+                     for(let j=1;j<=31;j++) { // parcourrir un mois de 31 jours
+                        var myDate = new Date(i+' '+j+' '+annee);
+                        if(tab_jour[myDate.getDay()] === "Samedi" || tab_jour[myDate.getDay()] === "Dimanche") {
+                           nbweeks++;
+                        }
+                     }
+                     i += 2;
+                  }
+                  /** fin */
+                  /** trouver les 3 premiers mois pairs */
+                  for(let i=2;i<=6;) {
+                     if(i === 2) {
+                        for(let j=1;j<=28;j++) { // parcourrir un mois de 28 jours (février)
+                           var myDate = new Date(i+' '+j+' '+annee);
+                           if(tab_jour[myDate.getDay()] === "Samedi" || tab_jour[myDate.getDay()] === "Dimanche") {
+                              nbweeks++;
+                           }
+                        }
+                     }else{
+                        for(let j=1;j<=30;j++) { // parcourrir un mois de 30 jours
+                           var myDate = new Date(i+' '+j+' '+annee);
+                           if(tab_jour[myDate.getDay()] === "Samedi" || tab_jour[myDate.getDay()] === "Dimanche") {
+                              nbweeks++;
+                           }
+                        }
+                     }
+                     i += 2;
+                  }
+                  /** fin */
+                  /** trouver les 2 derniers mois impairs */
+                  for(let i=9;i<=11;) {
+                     /** on va conter les jours de fêtes hors week-end */
+                     if(i === 11) {
+                        var toussaintDay = new Date(i+' 1 '+annee);
+                        var armisticeDay = new Date(i+' 11 '+annee);
+                        if(tab_jour[toussaintDay.getDay()] !== "Samedi" && tab_jour[toussaintDay.getDay()] !== "Dimanche") {
+                           nbfetes++;
+                        }
+                        if(tab_jour[armisticeDay.getDay()] !== "Samedi" && tab_jour[armisticeDay.getDay()] !== "Dimanche") {
+                           nbfetes++;
+                        }
+                     }
+                     /** fin */
+                     for(let j=1;j<=30;j++) { // parcourrir un mois de 30 jours
+                        var myDate = new Date(i+' '+j+' '+annee);
+                        if(tab_jour[myDate.getDay()] === "Samedi" || tab_jour[myDate.getDay()] === "Dimanche") {
+                           nbweeks++;
+                        }
+                     }
+                     i += 2;
+                  }
+               }
+               console.log("nbweeks "+nbweeks+", nbjours "+nbjours+", nbfetes "+nbfetes+", nbcp "+nbcp+", nbjt "+nbjt)
+               return nbjours-(nbweeks+nbfetes+nbcp+nbjt);
+            }
+
+            // Sélectionner l'élément input et récupérer sa valeur
+            var anneeInput = document.getElementById("annee").value;
+            var nbjtInput = document.getElementById("nbjt").value;
+            var nbcpInput = document.getElementById("nbcp").value;
+            
+            var anInputInt = parseInt(anneeInput)
+            var nbjtInputInt = parseInt(nbjtInput)
+            var nbcpInputInt = parseInt(nbcpInput)
+            document.getElementById("nbjrtt" ).innerHTML = calculrtt(anInputInt, nbjtInputInt, nbcpInputInt)+" RTT en "+anneeInput;
+         }
+      </script>
+   </head>
+   <body>
+      <input type="text" placeholder="Année" id="annee">
+      <input type="text" placeholder="Nombre de jours travaillés" id="nbjt">
+      <input type="text" placeholder="Nombre de jours de congés" id="nbcp">
+      <button type="button" onclick="getValue();">Récupérer la valeur</button><br /><br /><br />
+      <div id="nbjrtt"></div>
+   </body>
+</html>
