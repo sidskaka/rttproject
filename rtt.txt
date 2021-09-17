@@ -1,0 +1,84 @@
+var tab_jour=new Array("Dimanche", "Lundi", "Mardi", "Mercredi", "Jeudi", "Vendredi", "Samedi");
+function compteurFeteHorsWeek(mm, dd, yy) {
+   let fetejr = new Date(mm+' '+dd+' '+yy);
+   let nbjrs = 0;
+   if(tab_jour[fetejr.getDay()] !== "Samedi" && tab_jour[fetejr.getDay()] !== "Dimanche") {
+      nbjrs++;
+   }
+   return nbjrs;
+}
+function compteurJrsWeek(mm, dd, yy) {
+   let weekjr = new Date(mm+' '+dd+' '+yy);
+   let nbjrs = 0;
+   if(tab_jour[weekjr.getDay()] === "Samedi" || tab_jour[weekjr.getDay()] === "Dimanche") {
+      nbjrs++;
+   }
+   return nbjrs;
+}
+function rtt(anneeBissex,annee) {
+   var nbjours = 365;
+   var nbweeks = 0;
+   var nbfetes = 3;
+
+   var tabmoistrenteetunjs = [1,3,5,7,8,10,12];
+   for(let i of tabmoistrenteetunjs) {
+      if(i === 1) {
+         nbfetes += compteurFeteHorsWeek(i,1,annee)
+      }else if(i === 5){
+         nbfetes += compteurFeteHorsWeek(i,1,annee)
+         nbfetes += compteurFeteHorsWeek(i,8,annee)
+      }else if(i === 7){
+         nbfetes += compteurFeteHorsWeek(i,14,annee)
+      }else if(i === 8) {
+         nbfetes += compteurFeteHorsWeek(i,15,annee)
+      }else if(i === 12) {
+         nbfetes += compteurFeteHorsWeek(i,25,annee)
+      }
+      for(let j=1;j<=31;j++) {
+         nbweeks += compteurJrsWeek(i,j,annee)
+      }
+   }
+   var tabmoistrentejs = [2,4,6,9,11];
+   for(let i of tabmoistrentejs) {
+      if(i === 11) {
+         nbfetes += compteurFeteHorsWeek(i,1,annee)
+         nbfetes += compteurFeteHorsWeek(i,11,annee)
+      }
+      if(i === 2) {
+         if(anneeBissex === "bissextile") {
+            nbjours = 366;
+            for(let j=1;j<=29;j++) {
+               nbweeks += compteurJrsWeek(i,j,annee)
+            }
+         }else{
+            for(let j=1;j<=28;j++) {
+               nbweeks += compteurJrsWeek(i,j,annee)
+            }
+         }
+      }else{
+         for(let j=1;j<=30;j++) {
+            nbweeks += compteurJrsWeek(i,j,annee)
+         }
+      }
+   }
+   return {nbweeks, nbfetes, nbjours};
+}
+function calculrtt(annee, nbjt, nbcp) {
+   var returnValues = {};
+   if((annee%4) === 0) {
+      if((annee%100) === 0) {
+         if((annee%400) === 0) {
+            returnValues = rtt("bissextile",annee);
+         }else{
+            returnValues = rtt("nonbissextile",annee);
+         }
+      }else{
+         returnValues = rtt("bissextile",annee);
+      }
+   }else{
+      returnValues = rtt("nonbissextile",annee);
+      
+   }
+   return returnValues.nbjours-(returnValues.nbweeks+returnValues.nbfetes+nbcp+nbjt);
+}
+console.log(calculrtt(2021, 218, 25));
